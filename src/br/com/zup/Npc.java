@@ -5,10 +5,10 @@ public class Npc {
    private double vidaAtual = vidaMaxima;
    private String nome;
    private int energiaEspecial;
-   private int defesa;
-   private int ataque;
+   private double defesa;
+   private double ataque;
 
-    public Npc(double vidaMaxima, String nome, int energiaEspecial, int defesa, int ataque) {
+    public Npc(double vidaMaxima, String nome, int energiaEspecial, double defesa, double ataque) {
         this.vidaMaxima = vidaMaxima;
         this.nome = nome;
         this.energiaEspecial = energiaEspecial;
@@ -48,25 +48,25 @@ public class Npc {
         this.energiaEspecial = energiaEspecial;
     }
 
-    public int getDefesa() {
+    public double getDefesa() {
         return defesa;
     }
 
-    public void setDefesa(int defesa) {
+    public void setDefesa(double defesa) {
         this.defesa = defesa;
     }
 
-    public int getAtaque() {
+    public double getAtaque() {
         return ataque;
     }
 
-    public void setAtaque(int ataque) {
+    public void setAtaque(double ataque) {
         this.ataque = ataque;
     }
 
     public void receberDano (int danoAplicado){
-        int porcentagemDeDefesa = 1 - (defesa/100);
-        int danoRecebido = danoAplicado * porcentagemDeDefesa;
+        double porcentagemDeDefesa = 1 - (defesa/100);
+        double danoRecebido = danoAplicado * porcentagemDeDefesa;
         vidaAtual -= danoRecebido;
     }
 }
