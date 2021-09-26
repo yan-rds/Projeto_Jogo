@@ -67,6 +67,6 @@ public class Personagem {
     public void receberDano (double danoAplicado){
         double porcentagemDeDefesa = 1 - (defesa/100);
         double danoRecebido = danoAplicado * porcentagemDeDefesa;
-        vidaAtual -= danoRecebido;
+        setVidaAtual(getVidaAtual() - danoRecebido);
     }
 }

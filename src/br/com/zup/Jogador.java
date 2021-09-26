@@ -9,6 +9,7 @@ public class Jogador extends Personagem {
     private int pocaoDeVida;
     private int pocaoDeMana;
     private int pocaoDePoder;
+    private boolean giroCortante = false;
     private boolean rouboDeVida = false;
     private boolean relampago = false;
     private boolean cura = false;
@@ -16,6 +17,14 @@ public class Jogador extends Personagem {
 
     public Jogador(double vidaMaxima, String nome, int energiaEspecial, double defesa, double ataque) {
         super(vidaMaxima, nome, energiaEspecial, defesa, ataque);
+    }
+
+    public boolean isGiroCortante() {
+        return giroCortante;
+    }
+
+    public void setGiroCortante(boolean giroCortante) {
+        this.giroCortante = giroCortante;
     }
 
     public double getDefesaBase() {
@@ -127,6 +136,10 @@ public class Jogador extends Personagem {
             setAtaque(getAtaque() + aumentoDeAtaque);
             turnosPocaoPoder--;
         }
+    }
+    public void regenerarMana(){
+        double manaRegenerada = 10;
+        setMana(getMana() + manaRegenerada);
     }
 
 }

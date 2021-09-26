@@ -49,7 +49,7 @@ public class Sistema {
                         System.out.println("3- Escudo -- Habilita a opção de se defender de um ataque -- Custo: 80 de ouro");
                         System.out.println("4 - Lança -- +20 de poder de ataque -- Custo: 100 de ouro");
                         System.out.println("5 - Armadura de pano -- +15 de defesa -- Custo: 60 de ouro");
-                        System.out.println("6 - Armadura de couro -- +25 de defesa -- Custo: 75 de ouro");
+                        System.out.println("6 - Armadura de couro -- +25 de defesa -- Custo: 100 de ouro");
                         System.out.println("7 - Armadura de metal -- +40 de defesa -- Custo: 150 de ouro");
                         System.out.println("8 - Voltar para o menu anterior");
                         int escolhaEquipamento = leitor.nextInt();
@@ -91,15 +91,15 @@ public class Sistema {
                                     System.out.println("Dinheiro insuficiente");
                                 } else {
                                     jogador.setDinheiro(jogador.getDinheiro() - 60);
-                                    jogador.setDefesa(jogador.getDefesa() + 15);
+                                    jogador.setDefesaBase(jogador.getDefesaBase() + 15);
                                 }
                                 break;
                             case 6:
-                                if (jogador.getDinheiro() < 75) {
+                                if (jogador.getDinheiro() < 100) {
                                     System.out.println("Dinheiro insuficiente");
                                 } else {
-                                    jogador.setDinheiro(jogador.getDinheiro() - 75);
-                                    jogador.setDefesa(jogador.getDefesa() + 25);
+                                    jogador.setDinheiro(jogador.getDinheiro() - 100);
+                                    jogador.setDefesaBase(jogador.getDefesaBase() + 25);
                                 }
                                 break;
                             case 7:
@@ -107,7 +107,7 @@ public class Sistema {
                                     System.out.println("Dinheiro insuficiente");
                                 } else {
                                     jogador.setDinheiro(jogador.getDinheiro() - 150);
-                                    jogador.setDefesa(jogador.getDefesa() + 40);
+                                    jogador.setDefesaBase(jogador.getDefesaBase() + 40);
                                 }
                                 break;
                             case 8:
@@ -167,7 +167,8 @@ public class Sistema {
                         System.out.println("1 - Roubo de vida\nCura 10% do dano causado\nCusto: 150 de ouro");
                         System.out.println("2 - Relâmpago\nCausa dano a todos os inimigos equivalente ao seu poder mágico\nCusto: 150 de ouro");
                         System.out.println("3 - Cura\nCura vida perdida baseado no seu poder mágico\nCusto: 150 de ouro");
-                        System.out.println("4 - Voltar ao menu anterior");
+                        System.out.println("4 - Giro Cortante\nGira com sua arma causando dano físico a todos os inimigos\nCusto: 150 de ouro");
+                        System.out.println("5 - Voltar ao menu anterior");
                         int escolhaHabilidades = leitor.nextInt();
                         switch (escolhaHabilidades) {
                             case 1:
@@ -201,6 +202,15 @@ public class Sistema {
                                 }
                                 break;
                             case 4:
+                                if (jogador.getDinheiro() < 150){
+                                    System.out.println("Dinheiro insuficiente");
+                                    menuHabilidades = false;
+                                }
+                                else {
+                                    jogador.setDinheiro(jogador.getDinheiro() - 150);
+                                    jogador.setGiroCortante(true);
+                                }
+                            case 5:
                                 menuHabilidades = false;
                                 break;
                         }
@@ -259,6 +269,11 @@ public class Sistema {
         boolean pocaoUtilizada = false;
         boolean acaoRealizada = false;
         getJogador().setDefesa(getJogador().getDefesaBase());
+        if (getJogador().getClasse().equals("Mago") & getJogador().getMana() < 100) {
+            getJogador().regenerarMana();
+            System.out.println("10 de mana foram regenerados automaticamente");
+        }
+
 
         while (!acaoRealizada){
         System.out.println("1 - Ataque físico");
@@ -290,7 +305,10 @@ public class Sistema {
                     if (jogador.isCura() & jogador.getMana() > 20){
                         System.out.println("A habilidade Cura está disponível");
                     }
-                    if (jogador.isRelampago() | jogador.isCura()){
+                    if (jogador.isGiroCortante()) {
+                        System.out.println("A habilidade Giro cortante está disponível");
+                    }
+                    if (jogador.isRelampago() | jogador.isCura() | jogador.isGiroCortante()){
                         System.out.println("Digite o nome da habilidade que deseja utilizar");
                         String habilidade = leitor.next();
                         if (habilidade.equalsIgnoreCase("Relâmpago") | habilidade.equalsIgnoreCase("relampago")){
@@ -309,6 +327,17 @@ public class Sistema {
                             getJogador().utilizarCura();
                             System.out.println("Você curou " + getJogador().getAtaque() + " pontos de vida, e agora possui " + getJogador().getVidaAtual());
                             acaoRealizada = true;
+                        }
+                        else if (habilidade.equalsIgnoreCase("Giro cortante")){
+                            vilao.receberDano(jogador.getAtaque());
+                            double vidaDepoisDoGiro = getVilao().getVidaAtual();
+                            double danoCausadoPeloGiro = vidaAntesDoAtaque - vidaDepoisDoGiro;
+                            System.out.println("Você causou " + danoCausadoPeloGiro + " de dano ao vilão");
+                            acaoRealizada = true;
+                            if (vilao.getInvocarAliados() > 0){
+                                vilao.setInvocarAliados(0);
+                                System.out.println("Os lacaios do " + vilao.getNome() + " foram destruidos");
+                            }
                         }
                     }
                     else {
@@ -352,7 +381,9 @@ public class Sistema {
                         else if (escolhaPocao.equalsIgnoreCase("poder")){
                             if (jogador.getPocaoDePoder() > 0){
                                 System.out.println("Poção de poder utilizada");
-                                getJogador().setTurnosPocaoPoder(3);
+                                getJogador().setPocaoDePoder(getJogador().getPocaoDePoder() - 1);
+                                getJogador().aumentoPoder();
+                                getJogador().setTurnosPocaoPoder(2);
                                 pocaoUtilizada = true;
                                 }
                             else if (jogador.getPocaoDePoder() == 0){
@@ -383,7 +414,13 @@ public class Sistema {
                     System.out.println("Vida\n" +getJogador().getVidaAtual() + "/" + getJogador().getVidaMaxima());
                     System.out.println("Mana Atual\n" + getJogador().getMana());
                     System.out.println("Poder de ataque\n" + getJogador().getAtaque());
-                    System.out.println("Defesa\n" + getJogador().getDefesa());
+                    System.out.println("Defesa");
+                            if (getJogador().isDefender()){
+                                System.out.println(getJogador().getDefesa());
+                            }
+                            else {
+                                System.out.println(getJogador().getDefesaBase());
+                            }
                     System.out.println("habilidades disponíveis");
                     if (getJogador().isRelampago()){
                         System.out.println("Relâmpago");
@@ -472,7 +509,9 @@ public class Sistema {
     public void batalha(){
         while (vilao.getVidaAtual() > 0 & jogador.getVidaAtual() > 0){
             turnoJogador();
-            turnoVilao();
+            if (vilao.getVidaAtual() > 0) {
+                turnoVilao();
+            }
         }
     }
 
@@ -480,7 +519,7 @@ public class Sistema {
         if (jogador.getVidaAtual()<=0){
             System.out.println("Você foi derrotado");
         }
-        else if (vilao.getVidaAtual()<=0){
+        if (vilao.getVidaAtual()<=0){
             System.out.println("Você derrotou " + vilao.getNome());
         }
     }

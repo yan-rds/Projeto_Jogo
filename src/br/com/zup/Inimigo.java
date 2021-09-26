@@ -17,6 +17,7 @@ public class Inimigo extends Personagem {
 
     }
 
+
     @Override
     public double getVidaAtual() {
         return vidaAtual;
@@ -115,7 +116,7 @@ public class Inimigo extends Personagem {
             invocarAliados --;
         }
         else{
-            setDefesa(10);
+            setDefesa(30);
         }
     }
 
