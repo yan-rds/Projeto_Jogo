@@ -1,6 +1,6 @@
 package br.com.zup;
 
-public class Npc {
+public class Personagem {
    private double vidaMaxima;
    private double vidaAtual = vidaMaxima;
    private String nome;
@@ -8,7 +8,7 @@ public class Npc {
    private double defesa;
    private double ataque;
 
-    public Npc(double vidaMaxima, String nome, int energiaEspecial, double defesa, double ataque) {
+    public Personagem(double vidaMaxima, String nome, int energiaEspecial, double defesa, double ataque) {
         this.vidaMaxima = vidaMaxima;
         this.nome = nome;
         this.energiaEspecial = energiaEspecial;

@@ -1,6 +1,6 @@
 package br.com.zup;
 
-public class PersonagemDoJogador extends Npc{
+public class Jogador extends Personagem {
     private int dinheiro;
     private double defesaBase;
     private String classe;
@@ -14,11 +14,8 @@ public class PersonagemDoJogador extends Npc{
     private boolean cura = false;
     private int turnosPocaoPoder;
 
-    public PersonagemDoJogador(double vidaMaxima, String nome, int energiaEspecial, double defesa, double ataque, int dinheiro, String classe, double mana) {
+    public Jogador(double vidaMaxima, String nome, int energiaEspecial, double defesa, double ataque) {
         super(vidaMaxima, nome, energiaEspecial, defesa, ataque);
-        this.dinheiro = dinheiro;
-        this.classe = classe;
-        this.mana = mana;
     }
 
     public double getDefesaBase() {

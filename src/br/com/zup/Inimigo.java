@@ -1,6 +1,7 @@
 package br.com.zup;
 
-public class Inimigo extends Npc{
+public class Inimigo extends Personagem {
+    private double vidaAtual;
     private int invocarAliados;
     private boolean invocacaoAtiva = false;
     private int contadorEspecialFraco = 4;
@@ -10,9 +11,20 @@ public class Inimigo extends Npc{
     private boolean invocacaoMedia = true;
     private boolean invocacaoForte = true;
 
-    public Inimigo(double vidaMaxima, String nome, int energiaEspecial, int defesa, int ataque) {
+    public Inimigo(double vidaMaxima, String nome, int energiaEspecial, int defesa, int ataque, double vidaAtual) {
         super(vidaMaxima, nome, energiaEspecial, defesa, ataque);
+        this.vidaAtual = vidaAtual;
 
+    }
+
+    @Override
+    public double getVidaAtual() {
+        return vidaAtual;
+    }
+
+    @Override
+    public void setVidaAtual(double vidaAtual) {
+        this.vidaAtual = vidaAtual;
     }
 
     public boolean isInvocacaoAtiva() {
@@ -109,24 +121,24 @@ public class Inimigo extends Npc{
 
     public double ataqueBasico(){
         setEnergiaEspecial(getEnergiaEspecial()+20);
-        System.out.println("ataque basico");
+        System.out.println(getNome()+ " ergueu a espada e avançou em sua direção");
         return getAtaque();
     }
     public double especialFraco(){
         contadorEspecialFraco = 0;
-        System.out.println("Especial fraco");
+        System.out.println("HAHAHAHAHA CORTE CRUZADO!");
         return getAtaque() * 1.2;
     }
 
     public double especialMedio(){
         contadorEspecialMedio = 0;
-        System.out.println("Especial medio");
+        System.out.println("É SEU FIM! EXPLOSÃO FOCALIZADA!");
         return getAtaque() * 1.5;
     }
 
     public double especialForte(){
         contadorEspecialForte = 0;
-        System.out.println("Especial forte");
+        System.out.println("EU ADMITO QUE VOCE FOI PERSISTENTE, MAS ACABA AGORA!");
         return getAtaque() * 2;
     }
 
