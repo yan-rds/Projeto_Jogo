@@ -220,6 +220,8 @@ public class Sistema {
 
     public void turnoVilao(){
         getVilao().aumentarContador();
+
+        // Métodos ofensivos do vilao
         if (vilao.getEnergiaEspecial() >= 60 & vilao.getContadorEspecialForte() > 3){
             getJogador().receberDano(getVilao().especialForte());
             vilao.setEnergiaEspecial(vilao.getEnergiaEspecial() - 60);
@@ -235,5 +237,11 @@ public class Sistema {
         else if (vilao.getEnergiaEspecial()>=0){
             getJogador().receberDano(getVilao().ataqueBasico());
         }
+
+        // Métodos defensivos do vilão
+        vilao.realizarInvocacao();
+        vilao.regeneracao();
+        vilao.utilizarInvocacao();
+
     }
 }

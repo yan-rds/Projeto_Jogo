@@ -6,6 +6,9 @@ public class Inimigo extends Npc{
     private int contadorEspecialFraco = 4;
     private int contadorEspecialMedio = 0;
     private int contadorEspecialForte = 0;
+    private boolean invocacaoSimples = true;
+    private boolean invocacaoMedia = true;
+    private boolean invocacaoForte = true;
 
     public Inimigo(double vidaMaxima, String nome, int energiaEspecial, int defesa, int ataque) {
         super(vidaMaxima, nome, energiaEspecial, defesa, ataque);
@@ -53,36 +56,55 @@ public class Inimigo extends Npc{
     }
 
 
-    public void invocacao(){
+    public void realizarInvocacao(){
 
-        double metadeDaVida = getVidaAtual()*0.5;
-        double vidaCritica = getVidaAtual()*0.25;
-        double morrendo = getVidaAtual()*0.1;
+        double metadeDaVida = getVidaMaxima()*0.5;
+        double vidaCritica = getVidaMaxima()*0.30;
+        double morrendo = getVidaMaxima()*0.1;
 
-        if (getVidaAtual() < metadeDaVida & getVidaAtual() > vidaCritica){
-            invocarAliados = 1;
+        if (getVidaAtual() < metadeDaVida & getVidaAtual() > vidaCritica & invocacaoSimples){
+            setInvocarAliados(getInvocarAliados() + 1);
             invocacaoAtiva = true;
+            invocacaoSimples = false;
+            System.out.println("Arrrg! Me defenda!");
+            System.out.println("O " + getNome() + " invocou " + invocarAliados + " lacaio para defendê-lo");
         }
-        else if (getVidaAtual() < vidaCritica & getVidaAtual() > morrendo){
-            invocarAliados = 3;
+        else if (getVidaAtual() < vidaCritica & getVidaAtual() > morrendo & invocacaoMedia){
+            setInvocarAliados(getInvocarAliados() + 3);
             invocacaoAtiva = true;
+            invocacaoMedia = false;
+            System.out.println("GRRR! Venham mais!");
+            System.out.println("O " + getNome() + " invocou " + invocarAliados + " lacaios para defendê-lo");
         }
-        else if (getVidaAtual() < morrendo){
-            invocarAliados = 5;
+        else if (getVidaAtual() < morrendo & invocacaoForte){
+            setInvocarAliados(getInvocarAliados() + 5);
             invocacaoAtiva = true;
+            invocacaoMedia = false;
+            invocacaoForte = false;
+            System.out.println("Todos! Venham todos AGORA!!!");
+            System.out.println("O " + getNome() + " invocou " + invocarAliados + " lacaios para defendê-lo");
         }
-        else {
+        else if (invocarAliados == 0) {
             invocacaoAtiva = false;
-            invocarAliados = 0;
         }
     }
 
     public void regeneracao(){
         if (invocacaoAtiva){
-            double porcentagemRenegeracao = getVidaMaxima() * 0.05;
-            setVidaAtual(getVidaAtual() + porcentagemRenegeracao);
+            double vidaRegenerada = getVidaMaxima() * 0.1;
+            setVidaAtual(getVidaAtual() + vidaRegenerada);
+            System.out.println("O "+getNome()+" está se regenerando");
         }
+    }
 
+    public void utilizarInvocacao(){
+        if (invocarAliados > 0){
+            setDefesa(100);
+            invocarAliados --;
+        }
+        else{
+            setDefesa(10);
+        }
     }
 
     public double ataqueBasico(){
