@@ -217,4 +217,23 @@ public class Sistema {
             }
         }
     }
+
+    public void turnoVilao(){
+        getVilao().aumentarContador();
+        if (vilao.getEnergiaEspecial() >= 60 & vilao.getContadorEspecialForte() > 3){
+            getJogador().receberDano(getVilao().especialForte());
+            vilao.setEnergiaEspecial(vilao.getEnergiaEspecial() - 60);
+        }
+        else if (vilao.getEnergiaEspecial() >= 40 & vilao.getContadorEspecialMedio() > 4){
+            getJogador().receberDano(getVilao().especialMedio());
+            vilao.setEnergiaEspecial(vilao.getEnergiaEspecial() - 30);
+        }
+        else if (vilao.getEnergiaEspecial() >= 40 & vilao.getContadorEspecialFraco() > 5){
+            getJogador().receberDano(getVilao().especialFraco());
+            vilao.setEnergiaEspecial(vilao.getEnergiaEspecial() - 30);
+        }
+        else if (vilao.getEnergiaEspecial()>=0){
+            getJogador().receberDano(getVilao().ataqueBasico());
+        }
+    }
 }

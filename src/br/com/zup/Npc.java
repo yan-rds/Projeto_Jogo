@@ -64,7 +64,7 @@ public class Npc {
         this.ataque = ataque;
     }
 
-    public void receberDano (int danoAplicado){
+    public void receberDano (double danoAplicado){
         double porcentagemDeDefesa = 1 - (defesa/100);
         double danoRecebido = danoAplicado * porcentagemDeDefesa;
         vidaAtual -= danoRecebido;
