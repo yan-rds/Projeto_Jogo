@@ -8,8 +8,7 @@ public class Sistema {
     private Inimigo vilao;
     private PersonagemDoJogador jogador;
 
-    public Sistema(int preco, Inimigo vilao, PersonagemDoJogador jogador) {
-        this.preco = preco;
+    public Sistema( Inimigo vilao, PersonagemDoJogador jogador) {
         this.vilao = vilao;
         this.jogador = jogador;
     }
@@ -61,7 +60,7 @@ public class Sistema {
                         System.out.println("7 - Armadura de metal\n+50% de defesa\nCusto: 150 de ouro");
                         System.out.println("8 - Voltar para o menu anterior");
                         int escolhaEquipamento = leitor.nextInt();
-                        switch (escolhaEquipamento) {
+                        switch (escolhaEquipamento){
                             case 1:
                                 if (jogador.getDinheiro() < 80) {
                                     System.out.println("Dinheiro insuficiente");
@@ -121,6 +120,9 @@ public class Sistema {
                             case 8:
                                 menuEquipamentos = false;
                                 break;
+                            default:
+                                System.out.println("Opção inválida");
+
                         }
                     }
                     break;
@@ -160,8 +162,10 @@ public class Sistema {
                             case 4:
                                 menuConsumiveis = false;
                                 break;
+
                         }
                     }
+                    break;
                 case 3:
                     boolean menuHabilidades = true;
                     while (menuHabilidades) {
@@ -174,7 +178,9 @@ public class Sistema {
                             case 1:
                                 if (jogador.getDinheiro() < 150) {
                                     System.out.println("Dinheiro insuficiente");
-                                } else {
+                                    menuHabilidades = false;
+                                }
+                                else {
                                     jogador.setDinheiro(jogador.getDinheiro() - 150);
                                     jogador.setRouboDeVida(true);
                                 }
@@ -182,7 +188,9 @@ public class Sistema {
                             case 2:
                                 if (jogador.getDinheiro() < 150) {
                                     System.out.println("Dinheiro insuficiente");
-                                } else {
+                                    menuHabilidades = false;
+                                }
+                                else {
                                     jogador.setDinheiro(jogador.getDinheiro() - 150);
                                     jogador.setRelampago(true);
                                 }
@@ -190,7 +198,9 @@ public class Sistema {
                             case 3:
                                 if (jogador.getDinheiro() < 200) {
                                     System.out.println("Dinheiro insuficiente");
-                                } else {
+                                    menuHabilidades = false;
+                                }
+                                else {
                                     jogador.setDinheiro(jogador.getDinheiro() - 200);
                                     jogador.setCura(true);
                                 }
@@ -200,6 +210,7 @@ public class Sistema {
                                 break;
                         }
                     }
+                    break;
                 case 4:
                     menuCompras = false;
                     break;

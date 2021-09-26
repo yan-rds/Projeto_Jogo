@@ -3,13 +3,10 @@ package br.com.zup;
 public class Inimigo extends Npc{
     private int invocarAliados;
     private boolean invocacaoAtiva = false;
-    private int regeneracao;
 
-    public Inimigo(double vidaMaxima, String nome, int energiaEspecial, int defesa, int ataque, int invocarAliados, boolean invocacaoAtiva, int regeneracao) {
+    public Inimigo(double vidaMaxima, String nome, int energiaEspecial, int defesa, int ataque) {
         super(vidaMaxima, nome, energiaEspecial, defesa, ataque);
-        this.invocarAliados = invocarAliados;
-        this.invocacaoAtiva = invocacaoAtiva;
-        this.regeneracao = regeneracao;
+
     }
 
     public int getInvocarAliados() {
@@ -20,13 +17,6 @@ public class Inimigo extends Npc{
         this.invocarAliados = invocarAliados;
     }
 
-    public int getRegeneracao() {
-        return regeneracao;
-    }
-
-    public void setRegeneracao(int regeneracao) {
-        this.regeneracao = regeneracao;
-    }
 
     public void invocacao(){
 
