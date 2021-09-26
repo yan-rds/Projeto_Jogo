@@ -2,6 +2,7 @@ package br.com.zup;
 
 public class PersonagemDoJogador extends Npc{
     private int dinheiro;
+    private double defesaBase;
     private String classe;
     private double mana;
     private boolean defender = false;
@@ -11,12 +12,29 @@ public class PersonagemDoJogador extends Npc{
     private boolean rouboDeVida = false;
     private boolean relampago = false;
     private boolean cura = false;
+    private int turnosPocaoPoder;
 
     public PersonagemDoJogador(double vidaMaxima, String nome, int energiaEspecial, double defesa, double ataque, int dinheiro, String classe, double mana) {
         super(vidaMaxima, nome, energiaEspecial, defesa, ataque);
         this.dinheiro = dinheiro;
         this.classe = classe;
         this.mana = mana;
+    }
+
+    public double getDefesaBase() {
+        return defesaBase;
+    }
+
+    public void setDefesaBase(double defesaBase) {
+        this.defesaBase = defesaBase;
+    }
+
+    public int getTurnosPocaoPoder() {
+        return turnosPocaoPoder;
+    }
+
+    public void setTurnosPocaoPoder(int turnosPocaoPoder) {
+        this.turnosPocaoPoder = turnosPocaoPoder;
     }
 
     public boolean isRouboDeVida() {
@@ -98,4 +116,20 @@ public class PersonagemDoJogador extends Npc{
     public void setDefender(boolean defender) {
         this.defender = defender;
     }
+
+    public double utilizarRelampago (){
+        return getAtaque()*2;
+    }
+    public void utilizarCura (){
+        double vidaCurada = getAtaque();
+        setVidaAtual(getVidaAtual() + vidaCurada);
+    }
+    public void aumentoPoder(){
+        while (turnosPocaoPoder > 0) {
+            double aumentoDeAtaque = getAtaque() * 0.2;
+            setAtaque(getAtaque() + aumentoDeAtaque);
+            turnosPocaoPoder--;
+        }
+    }
+
 }

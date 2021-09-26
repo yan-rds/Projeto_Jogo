@@ -9,15 +9,22 @@ public class Main {
         Inimigo vilao = new Inimigo(70, "vilao", 0, 10, 20);
         Sistema system = new Sistema(vilao, jogador);
 
+        jogador.setVidaAtual(jogador.getVidaMaxima());
         vilao.setVidaAtual(vilao.getVidaMaxima());
-        for (int i = 0; i<15; i++){
-            System.out.println("invocar aliados: "+vilao.getInvocarAliados());
-            System.out.println("Defesa: " + vilao.getDefesa());
-            vilao.receberDano(jogador.getAtaque());
-            System.out.println(vilao.getVidaAtual());
-            system.turnoVilao();
 
+        while (vilao.getVidaAtual() > 0 & jogador.getVidaAtual() > 0){
+            system.turnoJogador();
+            system.turnoVilao();
         }
+
+        if (jogador.getVidaAtual()<=0){
+            System.out.println("Você foi derrotado");
+        }
+        else if (vilao.getVidaAtual()<=0){
+            System.out.println("Você derrotou " + vilao.getNome());
+        }
+
+
 
 
 

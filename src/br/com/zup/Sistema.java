@@ -244,4 +244,157 @@ public class Sistema {
         vilao.utilizarInvocacao();
 
     }
+
+    public void turnoJogador(){
+        boolean pocaoUtilizada = false;
+        boolean acaoRealizada = false;
+        getJogador().setDefesa(getJogador().getDefesaBase());
+
+        while (!acaoRealizada){
+        System.out.println("1 - Ataque físico");
+        System.out.println("2 - Ataque especial");
+        System.out.println("3 - Utilizar itens");
+        System.out.println("4 - Defender");
+        System.out.println("5 - Checar minha condição");
+        int escolha = leitor.nextInt();
+
+        switch (escolha){
+            case 1:
+                double vidaAntesDoAtaque = getVilao().getVidaAtual();
+                getVilao().receberDano(getJogador().getAtaque());
+                double vidaDepoisDoAtaque = getVilao().getVidaAtual();
+                double danoCausado = vidaAntesDoAtaque - vidaDepoisDoAtaque;
+                System.out.println("Você causou " + danoCausado + " de dano ao vilão");
+                if (getJogador().isRouboDeVida() & danoCausado > 0){
+                    double vidaCurada = danoCausado * 0.1;
+                    getJogador().setVidaAtual(jogador.getVidaAtual() + vidaCurada);
+                    System.out.println("Habilidade roubo de vida ativada");
+                    System.out.println("Você curou " + vidaCurada + " de vida" );
+                }
+                acaoRealizada = true;
+                break;
+            case 2:
+                if (jogador.isRelampago() & jogador.getMana() > 20){
+                    System.out.println("A habilidade Relâmpago está disponível");
+                }
+                else if (jogador.isCura() & jogador.getMana() > 20){
+                    System.out.println("A habilidade Cura está disponível");
+                }
+                else if (jogador.isRelampago() | jogador.isCura()){
+                    System.out.println("Digite o nome da habilidade que deseja utilizar");
+                    String habilidade = leitor.next();
+                    if (habilidade.equalsIgnoreCase("Relâmpago") | habilidade.equalsIgnoreCase("relampago")){
+                        vilao.receberDano(jogador.utilizarRelampago());
+                        acaoRealizada = true;
+                        if (vilao.getInvocarAliados() > 0){
+                            vilao.setInvocarAliados(0);
+                            System.out.println("Os lacaios do " + vilao.getNome() + " foram destruidos");
+                        }
+                    }
+                    else if (habilidade.equalsIgnoreCase("cura")){
+                        getJogador().utilizarCura();
+                        System.out.println("Você curou " + getJogador().getAtaque() + " pontos de vida, e agora possui " + getJogador().getVidaAtual());
+                        acaoRealizada = true;
+                    }
+                }
+                else {
+                    System.out.println("Você não possui habilidades disponíves");
+                }
+                break;
+            case 3:
+                if (!pocaoUtilizada){
+                    System.out.println("Poções disponíveis:");
+                    System.out.println("Poções de vida: "+getJogador().getPocaoDeVida());
+                    System.out.println("Poções de mana: "+getJogador().getPocaoDeMana());
+                    System.out.println("Poções de poder: "+getJogador().getPocaoDePoder());
+                    System.out.println("Digite o nome da poção que deseja utilizar: (Vida/Mana/Poder)");
+                    System.out.println("Para voltar à escolha de ação, digite 'Sair'");
+                    String escolhaPocao = leitor.next();
+                    if (escolhaPocao.equalsIgnoreCase("vida")){
+                        if (jogador.getPocaoDeVida()>0){
+                            double vidaCurada = jogador.getVidaMaxima() * 0.25;
+                            System.out.println("Poção de vida utilizada");
+                            jogador.setVidaAtual(jogador.getVidaAtual() + vidaCurada);
+                            System.out.println("Vida atual: " + jogador.getVidaAtual());
+                            getJogador().setPocaoDeVida(jogador.getPocaoDeVida() - 1);
+                            pocaoUtilizada = true;
+                        }
+                        else if (getJogador().getPocaoDeVida() == 0){
+                            System.out.println("Você não tem poções de vida suficientes");
+                        }
+                    }
+                    else if (escolhaPocao.equalsIgnoreCase("mana")){
+                        if (jogador.getPocaoDeMana()>0){
+                            System.out.println("Poção de mana utilizada");
+                            jogador.setMana(jogador.getMana()+40);
+                            System.out.println("Mana atual: " + getJogador().getMana());
+                            getJogador().setPocaoDeVida(jogador.getPocaoDeMana() - 1);
+                            pocaoUtilizada = true;
+                        }
+                        else if (getJogador().getPocaoDeMana() == 0){
+                            System.out.println("Você não tem poções de mana suficientes");
+                        }
+                    }
+                    else if (escolhaPocao.equalsIgnoreCase("poder")){
+                        if (jogador.getPocaoDePoder() > 0){
+                            System.out.println("Poção de poder utilizada");
+                            getJogador().setTurnosPocaoPoder(3);
+                            pocaoUtilizada = true;
+                            }
+                        else if (jogador.getPocaoDePoder() == 0){
+                            System.out.println("Você não possui poções de poder");
+                        }
+                        }
+                    else{
+                        pocaoUtilizada = true;
+                    }
+                    }
+                else if (pocaoUtilizada){
+                    System.out.println("Você já utilizou uma poção neste turno");
+                }
+                break;
+            case 4:
+                if (getJogador().isDefender()){
+                    getJogador().setDefesa(getJogador().getDefesa()+50);
+                    System.out.println("Você levanta seu escudo e se prepara para receber o próximo ataque");
+                    acaoRealizada = true;
+                }
+                else if (!getJogador().isDefender()){
+                    getJogador().setDefesa(getJogador().getDefesa()+ 20);
+                    System.out.println("Você abre mão de atacar para focar na defesa");
+                    acaoRealizada = true;
+                }
+                break;
+            case 5:
+                System.out.println("Vida\n" +getJogador().getVidaAtual() + "/" + getJogador().getVidaMaxima());
+                System.out.println("Mana Atual\n" + getJogador().getMana());
+                System.out.println("Poder de ataque\n" + getJogador().getAtaque());
+                System.out.println("Defesa\n" + getJogador().getDefesa());
+                System.out.println("habilidades disponíveis");
+                if (getJogador().isRelampago()){
+                    System.out.println("Relâmpago");
+                }
+                else if (getJogador().isCura()){
+                    System.out.println("Cura");
+                }
+                else if (getJogador().isRouboDeVida()){
+                    System.out.println("Roubo de vida");
+                }
+                else {
+                    System.out.println("Não há");
+                }
+                System.out.println("Buffs ativos");
+                if (getJogador().getTurnosPocaoPoder() > 0){
+                    System.out.println("Poção de poder, " + getJogador().getTurnosPocaoPoder() + " turno(s) restante(s)");
+                }
+                else {
+                    System.out.println("Não há");
+                }
+                break;
+
+
+
+        }
+    }
+    }
 }
